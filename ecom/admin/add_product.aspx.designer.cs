@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ecom
+namespace ecom.admin
 {
 
 
@@ -42,21 +42,30 @@ namespace ecom
         protected global::System.Web.UI.WebControls.TextBox price;
 
         /// <summary>
-        /// image_loc control.
+        /// file_upload1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox image_loc;
+        protected global::System.Web.UI.WebControls.FileUpload file_upload1;
 
         /// <summary>
-        /// sku control.
+        /// skuu control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox sku;
+        protected global::System.Web.UI.WebControls.TextBox skuu;
+
+        /// <summary>
+        /// insert control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button insert;
     }
 }
