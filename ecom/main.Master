@@ -1,0 +1,61 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="main.master.cs" Inherits="ecom.main" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Home Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+
+    <link href="StyleSheet1.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-0 py-3">
+  <div class="container-xl">
+    <!-- Logo -->
+    <a class="navbar-brand" href="#">
+      <img src="https://preview.webpixels.io/web/img/logos/clever-light.svg" class="h-8" alt="...">
+    </a>
+    <!-- Navbar toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Collapse -->
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <!-- Nav -->
+      <div class="navbar-nav mx-lg-auto">
+        <a class="nav-item nav-link active" href="#" aria-current="page">Home</a>
+        <a class="nav-item nav-link" href="#">Product</a>
+        <a class="nav-item nav-link" href="#">Features</a>
+        <a class="nav-item nav-link" href="#">Pricing</a>
+      </div>
+      <!-- Right navigation -->
+      <div class="navbar-nav ms-lg-4">
+        <a class="nav-item nav-link" runat="server" id="login_btn" href="login.aspx" visible='<%# !IsLoggedIn() %>'>Sign in</a>
+      </div>
+      <!-- Action -->
+      <div class="d-flex align-items-lg-center mt-3 mt-lg-0">
+        <a href="Register.aspx" runat="server" id="register_btn" class="btn btn-sm btn-primary w-full w-lg-auto" visible='<%# !IsLoggedIn() %>'>
+          Register
+        </a>
+      </div>
+
+        <div class="d-flex align-items-lg-center mt-3 mt-lg-0">
+        <a href="logout.aspx" runat="server" id="logout_btn" class="btn btn-sm btn-primary w-full w-lg-auto" visible='<%# IsLoggedIn() %>'>
+          Logout   
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+</body>
+</html>
