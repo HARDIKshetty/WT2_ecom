@@ -11,7 +11,7 @@ namespace ecom
 {
 
 
-    public partial class Register
+    public partial class billing
     {
 
         /// <summary>
@@ -24,39 +24,48 @@ namespace ecom
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// a_name control.
+        /// UserNameLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox a_name;
+        protected global::System.Web.UI.WebControls.Label UserNameLabel;
 
         /// <summary>
-        /// a_email control.
+        /// UserEmailLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox a_email;
+        protected global::System.Web.UI.WebControls.Label UserEmailLabel;
 
         /// <summary>
-        /// a_password control.
+        /// BillRepeater control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox a_password;
+        protected global::System.Web.UI.WebControls.Repeater BillRepeater;
 
         /// <summary>
-        /// reg control.
+        /// TotalAmountLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button reg;
+        protected global::System.Web.UI.WebControls.Label TotalAmountLabel;
+
+        /// <summary>
+        /// HomeButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button HomeButton;
     }
 }

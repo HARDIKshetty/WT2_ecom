@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="view_product.aspx.cs" Inherits="ecom.admin.view_product" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="view_order.aspx.cs" Inherits="ecom.admin.view_product" %>
 
 <!DOCTYPE html>
 
@@ -132,37 +132,19 @@
 
     <form id="form1" runat="server">
         <div>
-            <h1>View Products</h1>
+            <h1>View Order</h1>
 
-            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [product]" DeleteCommand="DELETE FROM [product] WHERE [id] = @id" InsertCommand="INSERT INTO [product] ([Name], [Price], [img_loc], [sku]) VALUES (@Name, @Price, @img_loc, @sku)" UpdateCommand="UPDATE [product] SET [Name] = @Name, [Price] = @Price, [img_loc] = @img_loc, [sku] = @sku WHERE [id] = @id">
-                <DeleteParameters>
-                    <asp:Parameter Name="id" Type="Int32" />
-                </DeleteParameters>
-                <InsertParameters>
-                    <asp:Parameter Name="Name" Type="String" />
-                    <asp:Parameter Name="Price" Type="Int32" />
-                    <asp:Parameter Name="img_loc" Type="String" />
-                    <asp:Parameter Name="sku" Type="String" />
-                </InsertParameters>
-                <UpdateParameters>
-                    <asp:Parameter Name="Name" Type="String" />
-                    <asp:Parameter Name="Price" Type="Int32" />
-                    <asp:Parameter Name="img_loc" Type="String" />
-                    <asp:Parameter Name="sku" Type="String" />
-                    <asp:Parameter Name="id" Type="Int32" />
-                </UpdateParameters>
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [order]">
             </asp:SqlDataSource>
 
             <div class="grid-container">
-                <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" DataKeyNames="id" DataSourceID="SqlDataSource1" CssClass="gridview">
+                <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" DataKeyNames="Id" DataSourceID="SqlDataSource1" CssClass="gridview">
                     <AlternatingRowStyle BackColor="#DCDCDC" />
                     <Columns>
-                        <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" />
-                        <asp:BoundField DataField="id" HeaderText="ID" InsertVisible="False" ReadOnly="True" SortExpression="id" />
-                        <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
-                        <asp:BoundField DataField="Price" HeaderText="Price" SortExpression="Price" />
-                        <asp:BoundField DataField="img_loc" HeaderText="Image Location" SortExpression="img_loc" />
-                        <asp:BoundField DataField="sku" HeaderText="SKU" SortExpression="sku" />
+                        <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" ReadOnly="True" SortExpression="Id" />
+                        <asp:BoundField DataField="UserId" HeaderText="UserId" SortExpression="UserId" />
+                        <asp:BoundField DataField="ProductIds" HeaderText="ProductIds" SortExpression="ProductIds" />
+                        <asp:BoundField DataField="Amount" HeaderText="Amount" SortExpression="Amount" />
                     </Columns>
                     <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
                     <HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" />

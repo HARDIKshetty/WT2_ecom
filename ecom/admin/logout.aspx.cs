@@ -5,13 +5,15 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace ecom.admin
+namespace ecom
 {
-    public partial class view_product : System.Web.UI.Page
+    public partial class logout : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("admin_login.aspx");
         }
     }
 }

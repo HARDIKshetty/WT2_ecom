@@ -19,7 +19,7 @@
   <div class="container-xl">
     <!-- Logo -->
     <a class="navbar-brand" href="#">
-      <img src="https://preview.webpixels.io/web/img/logos/clever-light.svg" class="h-8" alt="...">
+      <img src="images\fidget.png" class="h-8" alt="...">
     </a>
     <!-- Navbar toggle -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,9 +30,8 @@
       <!-- Nav -->
       <div class="navbar-nav mx-lg-auto">
         <a class="nav-item nav-link active" href="#" aria-current="page">Home</a>
-        <a class="nav-item nav-link" href="#">Product</a>
-        <a class="nav-item nav-link" href="#">Features</a>
-        <a class="nav-item nav-link" href="#">Pricing</a>
+        <a class="nav-item nav-link" href="#">Cart</a>
+        <a class="nav-item nav-link" href="#">My Orders</a>
       </div>
       <!-- Right navigation -->
       <div class="navbar-nav ms-lg-4">

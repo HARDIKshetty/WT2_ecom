@@ -16,8 +16,7 @@ namespace ecom
         {
             if (Session["LoggedInUser"] != null)
             {
-                // Session has started, redirect to the home page or any other protected page
-                Response.Redirect("home.aspx");
+                Response.Redirect("index.aspx");
             }
         }
         SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Asus\\source\\repos\\ecom\\ecom\\App_Data\\ecom.mdf;Integrated Security=True");
@@ -35,17 +34,14 @@ namespace ecom
 
             if (count > 0)
             {
-                // Set the user as logged in using session
                 Session["LoggedInUser"] = email;
 
-                // Redirect to the home page or any other protected page
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "alert('Logged in.');", true);
 
-                Response.Redirect("home.aspx");
+                Response.Redirect("index.aspx");
             }
             else
             {
-                // Invalid login, show error message
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "alert('Invalid email or password.');", true);
             }
 

@@ -1,70 +1,185 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data.SqlClient;
-using System.Data;
 
 namespace ecom
 {
-    protected void Page_Load(object sender, EventArgs e)
+    public partial class AddtoCart : System.Web.UI.Page
     {
-        if (!IsPostBack)
+        protected double GetTotalAmount()
         {
-            BindProductData(); // Bind the product data to the GridView
-        }
-    }
+            double totalAmount = 0;
 
-    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-        if (e.CommandName == "AddToCart")
-        {
-            int productId = Convert.ToInt32(e.CommandArgument);
-            AddToCart(productId);
-        }
-    }
+            if (Session["Cart"] != null)
+            {
+                string[] productIds = Session["Cart"].ToString().Split(',');
 
-    private void BindProductData()
-    {
-        // Retrieve product data from the database and set it as the GridView's DataSource
-        // Replace the following code with your own data retrieval logic
-        DataTable productsTable = GetProductsFromDatabase();
-        GridView1.DataSource = productsTable;
-        GridView1.DataBind();
-    }
+                string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
 
-    private void AddToCart(int productId)
-    {
-        // Retrieve the product details based on the productId
-        // Replace the following code with your own logic to retrieve the product details
-        DataTable productDetails = GetProductDetails(productId);
+                    foreach (string productId in productIds)
+                    {
+                        Product product = GetProductById(connection, productId);
+                        if (product != null)
+                        {
+                            totalAmount += product.Price;
+                        }
+                    }
 
-        // Add the product to the cart session
-        DataTable cartItems = Session["CartItems"] as DataTable;
-        if (cartItems == null)
-        {
-            // If the cart session doesn't exist, create a new DataTable and store it in the session
-            cartItems = new DataTable();
-            cartItems.Columns.Add("id", typeof(int));
-            cartItems.Columns.Add("Name", typeof(string));
-            cartItems.Columns.Add("Price", typeof(decimal));
-            cartItems.Columns.Add("img_loc", typeof(string));
-            Session["CartItems"] = cartItems;
+                    connection.Close();
+                }
+            }
+
+            return totalAmount;
         }
 
-        // Add the product details to the cart DataTable
-        DataRow cartItem = cartItems.NewRow();
-        cartItem["id"] = productDetails.Rows[0]["id"];
-        cartItem["Name"] = productDetails.Rows[0]["Name"];
-        cartItem["Price"] = productDetails.Rows[0]["Price"];
-        cartItem["img_loc"] = productDetails.Rows[0]["img_loc"];
-        cartItems.Rows.Add(cartItem);
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                LoadCartItems();
+                UpdateTotalAmount();
+            }
+        }
 
-        // Rebind the GridView to display the updated cart items
-        GridView1.DataSource = cartItems;
-        GridView1.DataBind();
+        private void UpdateTotalAmount()
+        {
+            double totalAmount = GetTotalAmount();
+            totalAmountLabel.Text = "Total Amount: ₹" + totalAmount.ToString("0.00");
+        }
+
+        protected void ProceedButton_Click(object sender, EventArgs e)
+        {
+            if (Session["LoggedInUser"] != null)
+            {
+                string userId = Session["LoggedInUser"].ToString();
+
+                if (Session["Cart"] != null)
+                {
+                    string[] productIds = Session["Cart"].ToString().Split(',');
+
+                    string productIdsString = string.Join(",", productIds);
+
+                    double totalAmount = GetTotalAmount();
+
+                    string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+
+                        string insertOrderQuery = "INSERT INTO [order] ([UserId], [ProductIds], [Amount]) VALUES (@UserId, @ProductIds, @Amount)";
+                        using (SqlCommand insertOrderCommand = new SqlCommand(insertOrderQuery, connection))
+                        {
+                            insertOrderCommand.Parameters.AddWithValue("@UserId", userId);
+                            insertOrderCommand.Parameters.AddWithValue("@ProductIds", productIdsString);
+                            insertOrderCommand.Parameters.AddWithValue("@Amount", totalAmount);
+
+                            insertOrderCommand.ExecuteNonQuery();
+                        }
+
+                        connection.Close();
+                    }
+
+
+                    Response.Redirect("billing.aspx");
+                }
+                else
+                {
+                    totalAmountLabel.Text = "No Items error";
+                }
+            }
+            else
+            {
+                totalAmountLabel.Text = "No User error";
+            }
+        }
+
+        public class Product
+        {
+            public string Id { get; set; }
+            public string Name { get; set; }
+            public double Price { get; set; }
+
+            public string img_loc { get; set; }
+            // Add any other properties relevant to your product
+        }
+
+        private void LoadCartItems()
+        {
+            if (Session["Cart"] != null)
+            {
+                Label1.Visible = false;
+                string[] productIds = Session["Cart"].ToString().Split(',');
+                List<Product> cartProducts = new List<Product>();
+
+                string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    foreach (string productId in productIds)
+                    {
+                        Product product = GetProductById(connection, productId);
+                        if (product != null)
+                        {
+                            cartProducts.Add(product);
+                        }
+                    }
+
+                    connection.Close();
+                }
+
+                Repeater1.DataSource = cartProducts;
+                Repeater1.DataBind();
+            }
+            else
+            {
+                Label1.Visible = true;
+            }
+        }
+
+        private Product GetProductById(SqlConnection connection, string productId)
+        {
+            Product product = null;
+
+            string query = "SELECT * FROM product WHERE Id = @ProductId";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@ProductId", productId);
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        product = new Product()
+                        {
+                            Id = reader["Id"].ToString(),
+                            Name = reader["Name"].ToString(),
+                            Price = Convert.ToDouble(reader["Price"]),
+                            img_loc = reader["img_loc"].ToString()
+                        };
+                    }
+                }
+            }
+
+            return product;
+        }
+
+        protected void Button1_Click1(object sender, EventArgs e)
+        {
+            // Clear the session cart
+            Session["Cart"] = null;
+
+            // Reload the page to reflect the cleared cart
+            Response.Redirect(Request.Url.AbsoluteUri);
+        }
     }
-
 }

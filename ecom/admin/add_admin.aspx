@@ -68,7 +68,7 @@
 <body>
     <form id="form1" runat="server">
         <div class="register-card">
-            <h3 class="register-card-title">Register</h3>
+            <h3 class="register-card-title">ADD ADMIN</h3>
             <div class="form-group">
                 <label for="u_name" class="custom-label">Name:</label>
                 <asp:TextBox ID="a_name" runat="server" CssClass="form-control" placeholder="Enter your name"></asp:TextBox>
@@ -85,7 +85,7 @@
     justify-content: center;
     display: flex;
 ">
-                <asp:Button ID="reg" runat="server" Text="Register" OnClick="reg_Click" CssClass="btn btn-primary" />
+                <asp:Button ID="reg" runat="server" Text="ADD ADMIN" OnClick="reg_Click" CssClass="btn btn-primary" />
             </div>
         </div>
     </form>

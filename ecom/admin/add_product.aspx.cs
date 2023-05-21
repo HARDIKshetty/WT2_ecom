@@ -18,7 +18,11 @@ namespace ecom.admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Session["adminlogin"] != null)
+            {
+                // Session has started, redirect to the home page or any other protected page
+                Response.Redirect("admin_login.aspx");
+            }
         }
 
        // String conn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Asus\\source\\repos\\ecom\\ecom\\App_Data\\ecom.mdf;Integrated Security=True";
